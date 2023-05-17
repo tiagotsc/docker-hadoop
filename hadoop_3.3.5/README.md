@@ -16,7 +16,7 @@ Abaixo segue o link para download.
 
   Se quiser montar um ambiente com docker completamente isolado do seu SO no tutorial abaixo mostro como fazer isso.
 
-  https://github.com/SEU_USUARIO_DOCKER/vagrant-docker
+  https://github.com/tiagotsc/vagrant-docker
 
 ### Siga as etapas
 
@@ -35,9 +35,9 @@ Cada pasta terá configurações expecificas para que possamos criar as imagens 
 
 Segue link dos binários, lembrando que os links podem mudar com o tempo:
 
- - Hadoop 3.3.5
+- Hadoop 3.3.5
 
-   https://dlcdn.apache.org/hadoop/common/hadoop-3.3.5/hadoop-3.3.5.tar.gz
+  https://dlcdn.apache.org/hadoop/common/hadoop-3.3.5/hadoop-3.3.5.tar.gz
 
 - Java JDK 1.8
 
