@@ -379,7 +379,7 @@ docker image rm SEU_USUARIO_DOCKER/hadoop_datanode:3.3.5
 docker system prune --all --force
 ```
 
-Todo o tutorial aplicado aqui, já se encontra pronto para uso nesse repositório, se você tiver em seu SO o **Vagrant** e **VirtualBox**, basta clonar e subir o ambiente.
+Todo o tutorial aplicado aqui, já se encontra pronto para uso nesse repositório, se você tiver em seu SO o **Vagrant** e **VirtualBox**, basta clonar, subir o ambiente, baixar os binários e seguir os passos de construção dos containers.
 
 O passo a passo foi desenvolvido encima do **Vagrant 2.3.3** e **VirtualBox 7.0.6**.
 
