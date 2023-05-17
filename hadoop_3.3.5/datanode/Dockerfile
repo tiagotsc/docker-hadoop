@@ -41,11 +41,8 @@ RUN echo '        UserKnownHostsFile=/dev/null' >> /etc/ssh/ssh_config
 # Muda o usuário
 USER hduser
 
-# Cria arquivo para receber chave do ssh pública da namenode
+# SSH - Configuração
 RUN mkdir /home/hduser/.ssh && touch /home/hduser/.ssh/authorized_keys && chmod 600 /home/hduser/.ssh/authorized_keys
-
-# SSH - Cria configuração em /etc/ssh/
-#RUN ssh-keygen -A
 
 # Usuário de trabalho
 ENV HDFS_NAMENODE_USER=hduser

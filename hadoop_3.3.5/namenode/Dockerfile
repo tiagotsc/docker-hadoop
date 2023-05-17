@@ -41,13 +41,8 @@ RUN echo '        UserKnownHostsFile=/dev/null' >> /etc/ssh/ssh_config
 # Muda o usuário
 USER hduser
 
-# SSH - Cria configuração em /etc/ssh/
-#RUN ssh-keygen -A
-
-# Gera a chave do usuário
+# SSH - Configuração
 RUN ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa && cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys && chmod 0600 ~/.ssh/authorized_keys
-#RUN ssh-keygen -f /etc/ssh/ssh_host_rsa_key -N '' -t rsa
-#RUN ssh-keygen -f /etc/ssh/ssh_host_ed25519_key -N '' -t ed25519
 
 # Usuário de trabalho
 ENV HDFS_NAMENODE_USER=hduser
