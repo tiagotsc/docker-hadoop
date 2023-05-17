@@ -36,10 +36,10 @@ Cada pasta terá configurações expecificas para que possamos criar as imagens 
 Segue link dos binários, lembrando que os links podem mudar com o tempo:
 
  - Hadoop 3.3.5
-https://dlcdn.apache.org/hadoop/common/hadoop-3.3.5/hadoop-3.3.5.tar.gz
+   https://dlcdn.apache.org/hadoop/common/hadoop-3.3.5/hadoop-3.3.5.tar.gz
 
 - Java JDK 1.8
-https://www.oracle.com/br/java/technologies/javase/javase8-archive-downloads.html (Linux x64 jdk-8u202-linux-x64.tar.gz)
+  https://www.oracle.com/br/java/technologies/javase/javase8-archive-downloads.html (Linux x64 jdk-8u202-linux-x64.tar.gz)
 
 ```bash
 # Descompacta os arquivos
@@ -95,11 +95,11 @@ Esse arquivo conterá todos os recursos e configurações necessárias que nossa
 
 2 - Adicione o seguinte conteúdo no arquivo **Dockerfile** e salve.
 
-https://github.com/SEU_USUARIO_DOCKER/vagrant-minikube/blob/dad0f0990808d7711e0f0c9ea7996f1de4c22123/Vagrantfile#L1-L115
+https://github.com/tiagotsc/docker-hadoop/blob/74cacd6af90d755b67f23bcaf30ae4425c9036d1/hadoop_3.3.5/namenode/Dockerfile#L1-L115
 
 3 - Na pasta onde tem o **Dockerfile**, crie o arquivo **script.sh** e adicione o conteúdo:
 
-https://github.com/SEU_USUARIO_DOCKER/vagrant-minikube/blob/dad0f0990808d7711e0f0c9ea7996f1de4c22123/Vagrantfile#L1-L5
+https://github.com/tiagotsc/docker-hadoop/blob/74cacd6af90d755b67f23bcaf30ae4425c9036d1/hadoop_3.3.5/namenode/script.sh#L1-L5
 
 Esse arquivo faz o ajuste de privilégios na nossa imagem.
 
@@ -186,11 +186,11 @@ Esse arquivo conterá todos os recursos e configurações necessárias que nossa
 
 2 - Adicione o seguinte conteúdo no arquivo **Dockerfile** e salve.
 
-https://github.com/SEU_USUARIO_DOCKER/vagrant-minikube/blob/dad0f0990808d7711e0f0c9ea7996f1de4c22123/Vagrantfile#L1-L112
+https://github.com/tiagotsc/docker-hadoop/blob/74cacd6af90d755b67f23bcaf30ae4425c9036d1/hadoop_3.3.5/datanode/Dockerfile#L1-L112
 
 3 - Na pasta onde tem o **Dockerfile**, crie o arquivo **script.sh** e adicione o conteúdo:
 
-https://github.com/SEU_USUARIO_DOCKER/vagrant-minikube/blob/dad0f0990808d7711e0f0c9ea7996f1de4c22123/Vagrantfile#L1-L5
+https://github.com/tiagotsc/docker-hadoop/blob/74cacd6af90d755b67f23bcaf30ae4425c9036d1/hadoop_3.3.5/datanode/script.sh#L1-L5
 
 Esse arquivo faz o ajuste de privilégios na nossa imagem.
 
