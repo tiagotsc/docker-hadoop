@@ -39,9 +39,9 @@ Segue link dos binários, lembrando que os links podem mudar com o tempo:
 
   https://dlcdn.apache.org/hadoop/common/hadoop-3.3.5/hadoop-3.3.5.tar.gz
 
-- Java JDK 1.8
+- Java JDK 1.8 (Exemplo: Linux x64 jdk-8u202-linux-x64.tar.gz)
 
-  https://www.oracle.com/br/java/technologies/javase/javase8-archive-downloads.html (Linux x64 jdk-8u202-linux-x64.tar.gz)
+  https://www.oracle.com/br/java/technologies/javase/javase8-archive-downloads.html
 
 ```bash
 # Descompacta os arquivos
