@@ -277,6 +277,8 @@ docker container rm -f datanode1
 docker image rm hadoop_datanode:3.3.5
 docker container rm -f namenode1
 docker image rm hadoop_namenode:3.3.5
+docker image rm SEU_USUARIO_DOCKER/hadoop_namenode:3.3.5
+docker image rm SEU_USUARIO_DOCKER/hadoop_datanode:3.3.5
 docker network rm hadoop_dl_net
 ````
 
