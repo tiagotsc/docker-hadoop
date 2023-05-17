@@ -3,11 +3,11 @@
 
 Criar de forma rápida e objetiva um cluster Hadoop 3.3.5 com provisionamento no Docker.
 
-Primeiro criaremos as imagens com Hadoop tanto para o namenode e datanode, depois subiremos os containeres e ainda será mostrado como enviar as imagens para o DockerHub.
+Primeiro criaremos as imagens com Hadoop tanto para o namenode e datanode, depois subiremos os containers e ainda será mostrado como enviar as imagens para o DockerHub.
 
 ### Requisitos mínimos
 
-Ter em seu SO o seguinte software.
+Ter em seu SO host o seguinte software.
 Abaixo segue o link para download.
 
 - Docker (Software para criação e administração de containers)
@@ -57,10 +57,10 @@ Observação: No meu caso como estou usando o **Vagrant** e a pasta **projeto** 
 # Renomeando pastas dos arquivos descompactados
 mv hadoop-3.3.5 hadoop
 mv jdk1.8.0_202/ jdk
-# Fazendo a cópia para a pasta binários na pasta namenode
+# Fazendo a cópia para a pasta binarios na pasta namenode
 cp -R hadoop ~/projeto/namenode/binarios/
 cp -R jdk ~/projeto/namenode/binarios/
-# Fazendo a cópia para a pasta binários na pasta datanode
+# Fazendo a cópia para a pasta binarios na pasta datanode
 cp -R hadoop ~/projeto/datanode/binarios/
 cp -R jdk ~/projeto/datanode/binarios/
 ```
@@ -73,7 +73,7 @@ Pasta **binarios** da pasta **datanode**, deverá ficar da mesma forma.
 
 ### Observação
 
-Antes de prosseguir com os passos abaixo, crie uma rede no Docker, pois ela será usada pela comunicação entre os containers posteriormente:
+Antes de prosseguir com os passos abaixo, crie uma rede no Docker, pois ela será usada pela comunicação entre os containers posteriormente.
 
 ```bash
 # Lista as redes docker atual
@@ -82,7 +82,7 @@ docker network ls
 docker network create -d bridge hadoop_dl_net
 ```
 
-### Os passos abaixo devem ser executados apenas na pasta **namenode** criada anteriormente
+### Os passos abaixo devem ser executados apenas na pasta namenode criada anteriormente
 
 1 - Entre na pasta **namenode** e crie o arquivo **Dockerfile**, sem extensão.
 
@@ -103,9 +103,9 @@ https://github.com/tiagotsc/docker-hadoop/blob/7b340ada16a5f2a471f575410428ad9c4
 
 https://github.com/tiagotsc/docker-hadoop/blob/74cacd6af90d755b67f23bcaf30ae4425c9036d1/hadoop_3.3.5/namenode/script.sh#L1-L5
 
-Esse arquivo faz o ajuste de privilégios na nossa imagem.
+Esse arquivo fará o ajuste de privilégios na nossa imagem.
 
-4 - Agora já podemos construir a imagem, estando na pasta do arquivo **Dockerfile**, execute:
+4 - Agora já podemos construir a imagem, estando na pasta **namenode** que contém o arquivo **Dockerfile**, execute:
 
 ```bash
 # Constrói a imagem
@@ -131,7 +131,7 @@ Fique a vontade para escolher uma das duas opções.
   # Dentro do container, formate o NameNode (somente na primeira execução)
   hdfs namenode -format
 
-  # Dentro do container, start do serviço do Namenode
+  # Dentro do container, inicie o serviço do Namenode
   hdfs --daemon start namenode
   ```
 
@@ -141,7 +141,7 @@ Fique a vontade para escolher uma das duas opções.
   # Formatar o NameNode (somente na primeira execução)
   docker exec -u hduser namenode1 hdfs namenode -format
 
-  # Start do serviço do Namenode
+  # Inicie o serviço do Namenode
   docker exec -u hduser namenode1 hdfs --daemon start namenode
   ```
 7 - Agora é só acessar o painel gerencial do Hadoop.
@@ -194,16 +194,16 @@ https://github.com/tiagotsc/docker-hadoop/blob/7b340ada16a5f2a471f575410428ad9c4
 
 https://github.com/tiagotsc/docker-hadoop/blob/74cacd6af90d755b67f23bcaf30ae4425c9036d1/hadoop_3.3.5/datanode/script.sh#L1-L5
 
-Esse arquivo faz o ajuste de privilégios na nossa imagem.
+Esse arquivo fará o ajuste de privilégios na nossa imagem.
 
-4 - Agora já podemos construir a imagem, estando na pasta do arquivo **Dockerfile**, execute:
+4 - Agora já podemos construir a imagem, estando na pasta **datanode** que contém o arquivo **Dockerfile**, execute:
 
 ```bash
 # Constrói a imagem
 docker build . -t hadoop_datanode:3.3.5
 ```
 
-5 - Imagem criada, já é possível subir o container, execute:
+5 - Imagem criada, já é possível subir o container **datanode1**, execute:
 
 ```bash
 docker run -dit --net hadoop_dl_net --hostname datanode1 --name datanode1 --privileged hadoop_datanode:3.3.5 /usr/sbin/init
@@ -211,7 +211,7 @@ docker run -dit --net hadoop_dl_net --hostname datanode1 --name datanode1 --priv
 
 6 - Antes de iniciar o serviço do **Datanode**, é preciso copia a chave pública SSH do **Namenode** para o **Datanode**, que pode ser de 2 formas:
 
-- Entrando no container **namenode1** e depois no **datanode**
+- Entrando no container **namenode1** e depois no container **datanode1**
 
   ````bash
   # Entre no container namenode1
@@ -241,7 +241,7 @@ docker run -dit --net hadoop_dl_net --hostname datanode1 --name datanode1 --priv
 
   # OU
 
-  # Recupere e armazene a senha em uma variável
+  # Recupere e armazene a chave em uma variável
   CHAVE=$(docker exec -u hduser namenode1 cat /home/hduser/.ssh/authorized_keys)
 
   # Envie a chave armazenada na variável para o container
@@ -277,12 +277,13 @@ docker container rm -f datanode1
 docker image rm hadoop_datanode:3.3.5
 docker container rm -f namenode1
 docker image rm hadoop_namenode:3.3.5
+docker network rm hadoop_dl_net
 ````
 
 ### Alguns comandos úteis
 
 ```bash
-### VAGRANT - é preciso estar na pasta raiz desse repositório
+##### VAGRANT - é preciso estar na pasta raiz desse repositório #####
 
 # Liga VM, ou cria, caso ainda não exista
 vagrant up
@@ -299,10 +300,10 @@ vagrant destroy
 # Destrói a VM sem perguntar
 vagrant destroy -f
 
-### HADOOP NAMENODE - Pode ser executado dentro do container 
-# (docker exec -u hduser -it namenode1 /bin/bash)
+##### HADOOP NAMENODE - Pode ser executado: #####
+# Dentro do container (docker exec -u hduser -it namenode1 /bin/bash)
 # OU 
-# via Docker (docker exec -u hduser namenode1 COMANDO)
+# via Docker (docker exec -u hduser namenode1 COMANDO_AQUI)
 
 # Formata o Namenode
 hdfs namenode -format
@@ -319,8 +320,8 @@ $HADOOP_HOME/sbin/start-dfs.sh ou $HADOOP_HOME/sbin/start-all.sh
 # Parar todo o cluster Hadoop, Namenode + Datanodes associados
 $HADOOP_HOME/sbin/stop-dfs.sh ou $HADOOP_HOME/sbin/stop-all.sh
 
-### HADOOP DATANODE - Pode ser executado dentro do container 
-# (docker exec -u hduser -it datanode1 /bin/bash)
+##### HADOOP DATANODE - Pode ser executado: #####
+# Dentro do container (docker exec -u hduser -it datanode1 /bin/bash)
 # OU 
 # via Docker (docker exec -u hduser datanode1 COMANDO)
 
@@ -330,7 +331,16 @@ hdfs --daemon start datanode
 # Para o Datanode
 hdfs --daemon stop datanode
 
-### DOCKER
+##### DOCKER #####
+
+# Listar redes
+docker network ls
+
+# Listar containers parados e em execução
+docker container ls -a
+
+# Listar imagens
+docker image ls
 
 # Se quiser parar os containers criados
 docker container stop namenode1 datanode1
