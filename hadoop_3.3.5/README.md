@@ -30,7 +30,6 @@ Cada pasta terá configurações expecificas para que possamos criar as imagens 
 
 ![App Screenshot](../hadoop_3.3.5/images/img2.png)
 
-
 3 - Faça o download do **Apache Hadoop 3.3.5** e do **Java JDK 1.8** e descompacte em qualquer lugar.
 
 Segue link dos binários, lembrando que os links podem mudar com o tempo:
@@ -51,7 +50,7 @@ tar -xvf jdk-8u202-linux-x64.tar.gz
 
 Observação: No meu caso como estou usando o **Vagrant** e a pasta **projeto** é compartilhada entre Windows e Linux, fiz a descompactação em outra pasta, por causa do conflito no link simbólico.
 
-4 - Renomeie a pasta **hadoop-3.3.5** para **hadoop** e **jdkx.x.x.x** para **jdk**, e faça uma cópia para a pasta **binarios** na pasta **namenode** e para a pasta **datanode** também:
+4 - Renomeie a pasta **hadoop-3.3.5** para **hadoop** e **jdkx.x.x.x** para **jdk**, e faça uma cópia para a pasta **binarios** tanto para a pasta **namenode** quanto para a pasta **datanode** também:
 
 ```bash
 # Renomeando pastas dos arquivos descompactados
@@ -105,20 +104,24 @@ https://github.com/tiagotsc/docker-hadoop/blob/74cacd6af90d755b67f23bcaf30ae4425
 
 Esse arquivo fará o ajuste de privilégios na nossa imagem.
 
-4 - Agora já podemos construir a imagem, estando na pasta **namenode** que contém o arquivo **Dockerfile**, execute:
+4 - Na pasta **config-files**, que foi criada anteriormente, adicione os arquivos que estão presentes na pasta **namenode/config-files** desse repositório.
+
+Esses arquivos possuem as configurações necessárias para o cluster Hadoop.
+
+5 - Agora já podemos construir a imagem, estando na pasta **namenode** que contém o arquivo **Dockerfile**, execute:
 
 ```bash
 # Constrói a imagem
 docker build . -t hadoop_namenode:3.3.5
 ```
 
-5 - Imagem criada, já é possível subir o container, execute:
+6 - Imagem criada, já é possível subir o container, execute:
 
 ```bash
 docker run -dit --net hadoop_dl_net --hostname namenode1 --name namenode1 -p 9870:9870 -p 50030:50030 -p 8020:8020 --privileged hadoop_namenode:3.3.5 /usr/sbin/init
 ```
 
-6 - Inicie o Namenode, que pode ser de 2 formas:
+7 - Inicie o Namenode, que pode ser de 2 formas:
 
 Fique a vontade para escolher uma das duas opções.
 
@@ -144,7 +147,7 @@ Fique a vontade para escolher uma das duas opções.
   # Inicie o serviço do Namenode
   docker exec -u hduser namenode1 hdfs --daemon start namenode
   ```
-7 - Agora é só acessar o painel gerencial do Hadoop.
+8 - Agora é só acessar o painel gerencial do Hadoop.
 
 - Se o seu Docker estiver rodando direito no seu SO host, acesse:
   
@@ -196,20 +199,24 @@ https://github.com/tiagotsc/docker-hadoop/blob/74cacd6af90d755b67f23bcaf30ae4425
 
 Esse arquivo fará o ajuste de privilégios na nossa imagem.
 
-4 - Agora já podemos construir a imagem, estando na pasta **datanode** que contém o arquivo **Dockerfile**, execute:
+4 - Na pasta **config-files**, que foi criada anteriormente, adicione os arquivos que estão presentes na pasta **datanode/config-files** desse repositório.
+
+Esses arquivos possuem as configurações necessárias para o cluster Hadoop.
+
+5 - Agora já podemos construir a imagem, estando na pasta **datanode** que contém o arquivo **Dockerfile**, execute:
 
 ```bash
 # Constrói a imagem
 docker build . -t hadoop_datanode:3.3.5
 ```
 
-5 - Imagem criada, já é possível subir o container **datanode1**, execute:
+6 - Imagem criada, já é possível subir o container **datanode1**, execute:
 
 ```bash
 docker run -dit --net hadoop_dl_net --hostname datanode1 --name datanode1 --privileged hadoop_datanode:3.3.5 /usr/sbin/init
 ```
 
-6 - Antes de iniciar o serviço do **Datanode**, é preciso copia a chave pública SSH do **Namenode** para o **Datanode**, que pode ser de 2 formas:
+7 - Antes de iniciar o serviço do **Datanode**, é preciso copia a chave pública SSH do **Namenode** para o **Datanode**, que pode ser de 2 formas:
 
 - Entrando no container **namenode1** e depois no container **datanode1**
 
@@ -251,7 +258,7 @@ docker run -dit --net hadoop_dl_net --hostname datanode1 --name datanode1 --priv
   docker exec -u hduser datanode1 hdfs --daemon start datanode
   ````
 
-7 - Executando uma das 2 opções da etapa anterior, no navegador, você dando um refresh na tela e clicando no link **Datanodes**, você deve ver o datanode que acabou de adicionar rodando:
+8 - Executando uma das 2 opções da etapa anterior, no navegador, você dando um refresh na tela e clicando no link **Datanodes**, você deve ver o datanode que acabou de adicionar rodando:
 
 ![App Screenshot](images/img5.png)
 
