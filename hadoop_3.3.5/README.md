@@ -292,7 +292,7 @@ docker network rm hadoop_dl_net
 ### Alguns comandos úteis
 
 ```bash
-##### VAGRANT - é preciso estar na pasta raiz desse repositório #####
+##### VAGRANT - é preciso estar na pasta que contém o Vagrantfile #####
 
 # Liga VM, ou cria, caso ainda não exista
 vagrant up
