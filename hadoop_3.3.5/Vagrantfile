@@ -2,7 +2,7 @@
 # vi: set ft=ruby  :
 
 machines = {
-  "docker"   => {"memory" => "6144", "cpu" => "4", "ip" => "200", "image" => "centos/7"}
+  "docker-hadoop"   => {"memory" => "6144", "cpu" => "4", "ip" => "200", "image" => "centos/7"}
 }
 
 Vagrant.configure("2") do |config|
