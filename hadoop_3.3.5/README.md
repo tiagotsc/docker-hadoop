@@ -35,9 +35,9 @@ Em relação a **segurança**, existem 2 cenários:
   
   É recomendável apenas para ambiente de testes.
   
-- Protocolo Kerberos.
+- Protocolo **Kerberos**.
   
-  É preciso configurar e assim seu data lake vai ter toda uma camada de proteção encima do protocolo Kerberos.
+  É preciso configurar e assim seu data lake vai ter toda uma camada de proteção encima do protocolo **Kerberos**.
   
   Essa é a recomendável para um ambiente de produção.
 
