@@ -5,11 +5,13 @@ Hadoop é um data lake bem consolidado no mercado e bem eficiente no que se prop
 
 Existem 2 maneiras de instalar Hadoop que são:
 
-- Single-node ou Pseudo-distributed
+- **Single-node** ou **Pseudo-distributed**
 
-  O Namenode e Datanode residem na mesma máquina, simulando um cluster. Essa configuração é ótima para testes e desenvolvimente encima da ferramenta.
+  O **Namenode** e **Datanode** residem na mesma máquina, simulando um cluster. 
   
-- Mult-node ou simplesmente cluster
+  Essa configuração é ótima para testes e desenvolvimento encima da ferramenta.
+  
+- **Mult-node** ou simplesmente **Cluster**
 
   Nessa configuração o Hadoop já é um cluster de fato e se aproximo do é visto em produção.
   
@@ -21,7 +23,7 @@ Na instalação do tipo cluster é possível configurar de 2 forma:
   
 - 2 ou mais namenodes
 
-  Nesse a instalação, além do namenode principal, vai ter um ou mais standy by namenode que sobem caso o namenode principal caia. Dessa forma não há perda dos metadados.
+  Nesse a instalação, além do **Namenode principal**, vai ter um ou mais **Standy by namenode** que sobem caso o namenode principal caia. Dessa forma não há perda dos metadados.
   
   Esse é o recomendável para produção.
 
@@ -36,7 +38,8 @@ Em relação a segurança, existem 2 cenários:
 - Protocolo Kerberos.
   
   É preciso configurar e assim seu data lake vai ter toda uma camada de proteção encima do protocolo Kerberos.
-  É esse o recomendável para um ambiente de produção.
+  
+  Essa é a recomendável para um ambiente de produção.
 
 Nesse passo a passo vamos criar um cluster Hadoop 3.3.5 com provisionamento no Docker que vai proporciar um ótimo cenário para estudos.
 
