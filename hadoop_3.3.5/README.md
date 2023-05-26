@@ -1,7 +1,44 @@
 ﻿
 ## Vagrant - Provisionando de um cluster Hadoop 3.3.5 usando Docker
 
-Criar de forma rápida e objetiva um cluster Hadoop 3.3.5 com provisionamento no Docker.
+Hadoop é um data lake bem consolidado no mercado e bem eficiente no que se propõe que é trabalhar com grandes volumes de dados.
+
+Existem 2 maneiras de instalar Hadoop que são:
+
+- Single-node ou Pseudo-distributed
+
+  O Namenode e Datanode residem na mesma máquina, simulando um cluster. Essa configuração é ótima para testes e desenvolvimente encima da ferramenta.
+  
+- Mult-node ou simplesmente cluster
+
+  Nessa configuração o Hadoop já é um cluster de fato e se aproximo do é visto em produção.
+  
+Na instalação do tipo cluster é possível configurar de 2 forma:
+
+- Um único namenode
+
+  Recomendado apenas para testes, pois se um namenode cair você pode perder tudo.
+  
+- 2 ou mais namenodes
+
+  Nesse a instalação, além do namenode principal, vai ter um ou mais standy by namenode que sobem caso o namenode principal caia. Dessa forma não há perda dos metadados.
+  
+  Esse é o recomendável para produção.
+
+Em relação a segurança, existem 2 cenários:
+
+- Sem segurança (padrão)
+  
+  Por padrão a instalação não vem com a configuração de segurança ativa.
+  
+  É recomendável apenas para ambiente de testes.
+  
+- Protocolo Kerberos.
+  
+  É preciso configurar e assim seu data lake vai ter toda uma camada de proteção encima do protocolo Kerberos.
+  É esse o recomendável para um ambiente de produção.
+
+Nesse passo a passo vamos criar um cluster Hadoop 3.3.5 com provisionamento no Docker que vai proporciar um ótimo cenário para estudos.
 
 Primeiro criaremos as imagens com Hadoop tanto para o namenode e datanode, depois subiremos os containers e ainda será mostrado como enviar as imagens para o DockerHub.
 
