@@ -41,7 +41,7 @@ Em relação a **segurança**, existem 2 cenários:
   
   Essa é a recomendável para um ambiente de produção.
 
-Nesse passo a passo vamos criar um cluster Hadoop 3.3.5 com provisionamento no Docker que vai proporciar um ótimo cenário para estudos.
+Nesse passo a passo vamos criar um cluster Hadoop 3.3.5 com provisionamento no Docker que vai proporcionar um ótimo cenário para estudos e com os ajustes adequados é possível levá-lo para produção também.
 
 Primeiro criaremos as imagens com Hadoop tanto para o namenode e datanode, depois subiremos os containers e ainda será mostrado como enviar as imagens para o DockerHub.
 
