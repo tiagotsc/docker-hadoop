@@ -15,7 +15,7 @@ Existem 2 maneiras de instalar Hadoop que são:
 
   Nessa configuração o Hadoop já é um cluster de fato e se aproximo do é visto em produção.
   
-Na instalação do tipo cluster é possível configurar de 2 forma:
+Na instalação do tipo **Cluster** é possível configurar de 2 forma:
 
 - Um único namenode
 
