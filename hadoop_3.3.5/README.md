@@ -23,9 +23,9 @@ Na instalação do tipo **Cluster** é possível configurar de 2 forma:
   
 - 2 ou mais namenodes
 
-  Nesse a instalação, além do **Namenode principal**, vai ter um ou mais **Standy by namenode** que sobem caso o namenode principal caia. Dessa forma não há perda dos metadados.
+  Nesse a instalação, além do **Namenode principal**, vai ter um ou mais **Standy by namenode** que sobem caso o namenode principal caia. 
   
-  Esse é o recomendável para produção.
+  Dessa forma não há perda dos metadados. Esse é o recomendável para produção.
 
 Em relação a segurança, existem 2 cenários:
 
