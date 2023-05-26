@@ -27,7 +27,7 @@ Na instalação do tipo **Cluster** é possível configurar de 2 forma:
   
   Dessa forma não há perda dos metadados. Esse é o recomendável para produção.
 
-Em relação a segurança, existem 2 cenários:
+Em relação a **segurança**, existem 2 cenários:
 
 - Sem segurança (padrão)
   
