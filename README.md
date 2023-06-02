@@ -1,6 +1,6 @@
 ### Criando cluster Hadoop usando Docker
 
-É mostrado em detalhes como criar a imagem e subir um Cluster Hadoop usando apenas o Docker, inclusive é mostrado como enviar as imagens para o DockerHub para uso posterior.
+Passo a passo de como criar uma imagem e como subir um cluster Hadoop usando o Docker, inclusive é mostrado como enviar as imagens para o DockerHub para uso posterior.
 
 #### Link do passo a passo para versão do Hadoop
 
