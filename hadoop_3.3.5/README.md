@@ -136,7 +136,7 @@ Esse arquivo conterá todos os recursos e configurações necessárias que nossa
 
 2 - Adicione o seguinte conteúdo no arquivo **Dockerfile** e salve.
 
-https://github.com/tiagotsc/docker-hadoop/blob/7b340ada16a5f2a471f575410428ad9c4092af6b/hadoop_3.3.5/namenode/Dockerfile#L1-L110
+https://github.com/tiagotsc/docker-hadoop/blob/7b340ada16a5f2a471f575410428ad9c4092af6b/hadoop_3.3.5/namenode/Dockerfile#L1-L147
 
 3 - Na pasta onde tem o **Dockerfile**, crie o arquivo **script.sh** e adicione o conteúdo:
 
@@ -158,7 +158,7 @@ docker build . -t hadoop_namenode:3.3.5
 6 - Imagem criada, já é possível subir o container, execute:
 
 ```bash
-docker run -dit --net hadoop_dl_net --hostname namenode1 --name namenode1 -p 9870:9870 -p 50030:50030 -p 8020:8020 --privileged hadoop_namenode:3.3.5 /usr/sbin/init
+docker run -dit --net hadoop_dl_net --hostname namenode1 --name namenode1 -p 9870:9870 -p 50030:50030 -p 8020:8020 -p 8088:8088 --privileged hadoop_namenode:3.3.5 /usr/sbin/init
 ```
 
 7 - Inicie o Namenode, que pode ser de 2 formas:
@@ -176,6 +176,9 @@ Fique a vontade para escolher uma das duas opções.
 
   # Dentro do container, inicie o serviço do Namenode
   hdfs --daemon start namenode
+
+  # Dentro do container, inicie o serviço do Yarn Resource Manager
+  yarn --daemon start resourcemanager
   ```
 
 - Via Docker de fora do container
@@ -186,20 +189,34 @@ Fique a vontade para escolher uma das duas opções.
 
   # Inicie o serviço do Namenode
   docker exec -u hduser namenode1 hdfs --daemon start namenode
+
+  # Inicie o serviço do Yarn Resource Manager
+  docker exec -u hduser namenode1 yarn --daemon start resourcemanager
   ```
-8 - Agora é só acessar o painel gerencial do Hadoop.
+8 - Agora é só acessar o painel gerencial do Hadoop e do Yarn
 
 - Se o seu Docker estiver rodando direito no seu SO host, acesse:
   
+  Para hadoop: 
   http://localhost:9870
+
+  Para Yarn:
+  http://localhost:8088/cluster
 
 - Se seu Docker estiver rodando de forma isolada em alguma VM, lembrando que é necessário liberar a porta no firewall, acesse:
 
+  Para hadoop:
   http://IP_SUA_VM:9870
+
+  Para Yarn: http://IP_SUA_VM:8088/cluster
 
 E você verá a seguinte tela:
 
+Para Hadoop
 ![App Screenshot](../hadoop_3.3.5/images/img4.png)
+
+Para Yarn
+![App Screenshot](../hadoop_3.3.5/images/img6.png)
 
 #### Enviando a imagem Hadoop Namenode para o DockerHub
 
@@ -214,7 +231,7 @@ docker image tag hadoop_namenode:3.3.5 SEU_USUARIO_DOCKER/hadoop_namenode:3.3.5
 docker image push SEU_USUARIO_DOCKER/hadoop_namenode:3.3.5
 ````
 
-Nó Namenode está tudo ok! Vamos agora para o nó Datanode.
+Nó Namenode e Yarn Resource Manager está tudo ok! Vamos agora para o nó Datanode.
 
 ### Os passos abaixo devem ser executados apenas na pasta **datanode** criada anteriormente
 
@@ -231,7 +248,7 @@ Esse arquivo conterá todos os recursos e configurações necessárias que nossa
 
 2 - Adicione o seguinte conteúdo no arquivo **Dockerfile** e salve.
 
-https://github.com/tiagotsc/docker-hadoop/blob/7b340ada16a5f2a471f575410428ad9c4092af6b/hadoop_3.3.5/datanode/Dockerfile#L1-L108
+https://github.com/tiagotsc/docker-hadoop/blob/7b340ada16a5f2a471f575410428ad9c4092af6b/hadoop_3.3.5/datanode/Dockerfile#L1-L145
 
 3 - Na pasta onde tem o **Dockerfile**, crie o arquivo **script.sh** e adicione o conteúdo:
 
@@ -256,7 +273,7 @@ docker build . -t hadoop_datanode:3.3.5
 docker run -dit --net hadoop_dl_net --hostname datanode1 --name datanode1 --privileged hadoop_datanode:3.3.5 /usr/sbin/init
 ```
 
-7 - Antes de iniciar o serviço do **Datanode**, é preciso copia a chave pública SSH do **Namenode** para o **Datanode**, que pode ser de 2 formas:
+7 - Antes de iniciar o serviço do **Datanode** e **Yarn node manager**, é preciso copia a chave pública SSH do **Namenode** para o **Datanode**, que pode ser de 2 formas:
 
 - Entrando no container **namenode1** e depois no container **datanode1**
 
@@ -275,8 +292,11 @@ docker run -dit --net hadoop_dl_net --hostname datanode1 --name datanode1 --priv
   # Saia do container namenode1 e entre no do datanode1
   docker exec -u hduser -it datanode1 /bin/bash
 
-  # Dentro do container datanode, já com a chave ssh adicionada, é só subir o serviço
+  # Dentro do container datanode, já com a chave ssh adicionada, é só subir o serviço datanode
   hdfs --daemon start datanode
+
+  # Dentro do container datanode, já com a chave ssh adicionada, é só subir o serviço Yarn node manager
+  yarn --daemon start nodemanager
 
   ````
 
@@ -296,11 +316,22 @@ docker run -dit --net hadoop_dl_net --hostname datanode1 --name datanode1 --priv
 
   # Depois de colocar a chave no datanode, suba o serviço do datanode
   docker exec -u hduser datanode1 hdfs --daemon start datanode
+
+  # Depois de colocar a chave no datanode, suba o serviço do Yarn node manager
+  docker exec -u hduser datanode1 yarn --daemon start nodemanager
   ````
 
 8 - Executando uma das 2 opções da etapa anterior, no navegador, você dando um refresh na tela e clicando no link **Datanodes**, você deve ver o datanode que acabou de adicionar rodando:
 
+http://IP_SUA_VM:9870
+
 ![App Screenshot](images/img5.png)
+
+E na tela do Yarn, você dando um refresh, você já deve ver um **Active Node**.
+
+http://IP_SUA_VM:8088/cluster
+
+![App Screenshot](images/img7.png)
 
 Seu cluster Hadoop já está funcionando! Se quiser pode adicionar mais datanodes no seu cluster a qualquer momento.
 
@@ -364,10 +395,34 @@ hdfs --daemon start namenode
 hdfs --daemon stop namenode
 
 # Inicia todo o cluster Hadoop, Namenode + Datanodes associados
-$HADOOP_HOME/sbin/start-dfs.sh ou $HADOOP_HOME/sbin/start-all.sh
+$HADOOP_HOME/sbin/start-dfs.sh
 
 # Parar todo o cluster Hadoop, Namenode + Datanodes associados
-$HADOOP_HOME/sbin/stop-dfs.sh ou $HADOOP_HOME/sbin/stop-all.sh
+$HADOOP_HOME/sbin/stop-dfs.sh
+
+# Iniciar Yarn Resource Manager
+yarn --daemon start resourcemanager
+
+# Parar Yarn Resource Manager
+yarn --daemon stop resourcemanager
+
+# Inicia todo o cluster Yarn, Resource Manager + Node Manager
+$HADOOP_HOME/sbin/start-yarn.sh
+
+# Parar todo o cluster Yarn, Resource Manager + Node Manager
+$HADOOP_HOME/sbin/stop-yarn.sh
+
+# Listar jobs Yarn
+yarn application -list
+
+# Matar job Yarn
+yarn application -kill ID_APLICACAO
+
+# Ver log de job Yarn
+yarn logs -applicationId ID_APLICACAO
+
+# Listar os Node Manager Yarn
+yarn node -list
 
 ##### HADOOP DATANODE - Pode ser executado: #####
 # Dentro do container (docker exec -u hduser -it datanode1 /bin/bash)
@@ -379,6 +434,12 @@ hdfs --daemon start datanode
 
 # Para o Datanode
 hdfs --daemon stop datanode
+
+# Inicia o Yarn Node Manager 
+yarn --daemon start nodemanager
+
+# Para o Yarn Node Manager 
+yarn --daemon stop nodemanager
 
 ##### DOCKER #####
 

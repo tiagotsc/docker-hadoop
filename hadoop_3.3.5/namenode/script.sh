@@ -1,5 +1,5 @@
 #!/bin/bash
 
 # Ajuste dos privilégios
-sudo chown -R hduser:hduser /home/hduser/jdk
-sudo chown -R hduser:hduser /home/hduser/hadoop
+sudo chown -R hduser:hadoop /home/hduser/jdk
+sudo chown -R hduser:hadoop /home/hduser/hadoop

@@ -22,14 +22,34 @@ RUN yum clean all && \
     nano \
     sudo \
     sshpass \
+    wget \
+    make \
+    yum install -y autoconf automake libtool \
+    yum install -y gcc gcc-c++ cmake \
+    yum install -y zlib-devel \
+    yum install -y openssl-devel \
+    yum install -y snappy snappy-devel \
+    yum install -y bzip2 bzip2-devel \
     yum -y install openssh-server openssh-clients initscripts
 
+# Cria grupo hadoop
+RUN groupadd hadoop
 # Cria usuário para a instalação do Hadoop e define a senha
 RUN useradd -m hduser && echo "hduser:hduser" | chpasswd
 # Adiciona o usuário criado ao grupo padrão wheel do super usuário do CentOS
 RUN usermod -aG wheel hduser
+# Adiciona usuário ao grupo hadoop
+RUN usermod -aG hadoop hduser
 # Transforma o usuário criado em um super usuário
 RUN echo "hduser ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+# Adcionando usuários de serviços
+RUN useradd hdfs -g hadoop
+RUN useradd yarn -g hadoop
+RUN useradd jhs -g hadoop
+RUN useradd HTTP -g hadoop
+RUN useradd hive -g hadoop
+RUN useradd mapred -g hadoop
 
 # Copia o arquivo de configuração do ssh
 # StrictHostKeyChecking no = Desabilita pergunta / checagem de confiança de chave
@@ -89,6 +109,8 @@ RUN mkdir /home/hduser/hdfs/datanode
 ADD ./config-files/hadoop-env.sh $HADOOP_HOME/etc/hadoop/
 ADD ./config-files/core-site.xml $HADOOP_HOME/etc/hadoop/
 ADD ./config-files/hdfs-site.xml $HADOOP_HOME/etc/hadoop/
+ADD ./config-files/yarn-site.xml $HADOOP_HOME/etc/hadoop/
+ADD ./config-files/mapred-site.xml $HADOOP_HOME/etc/hadoop/
 ADD ./config-files/workers $HADOOP_HOME/etc/hadoop/
 
 # Adiciona scripts
@@ -98,11 +120,25 @@ RUN sudo chmod +x /home/hduser/script.sh
 RUN /bin/bash -c '/home/hduser/script.sh'
 
 # Portas que poderão ser usadas
-EXPOSE 22 9864
+EXPOSE 22 9864 2181 8485 2888-3888 1019 1022 88 8032 8042
 
 # Volta para usuário root, pois alguns processos são iniciados através dele
 USER root
 # setup new root password
 RUN echo root:root | chpasswd
+
+# Muda configuração do sistema
+RUN echo '* soft nofile 102400' >> /etc/security/limits.conf
+RUN echo '* hard nofile 409600' >> /etc/security/limits.conf
+RUN echo 'session    required     /lib64/security/pam_limits.so' >> /etc/pam.d/login
+
+# Instalação openssl version 1.1.1 (É utilizado pelo Yarn e MapReduce)
+RUN wget https://www.openssl.org/source/openssl-1.1.1h.tar.gz 
+RUN tar -zxf openssl-1.1.1h.tar.gz
+RUN cd openssl-1.1.1h && ./config && make && make install
+RUN ln -s /usr/local/lib64/libssl.so.1.1 /usr/lib64/libssl.so.1.1
+RUN ln -s /usr/local/lib64/libcrypto.so.1.1 /usr/lib64/libcrypto.so.1.1
+RUN rm -Rf openssl-1.1.1h
+# Teste openssl 1.1.1 com comando: openssl version
 
 CMD ["/usr/sbin/init"]
