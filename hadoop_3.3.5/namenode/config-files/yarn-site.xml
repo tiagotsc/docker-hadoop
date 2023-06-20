@@ -16,15 +16,16 @@
 <configuration>
 
 <!-- Site specific YARN configuration properties -->
-  <property>
-    <name>yarn.resourcemanager.scheduler.address</name>
-    <value>namenode1:8030</value>
-  </property>
 
-  <!--Apenas no nó Resource Manager-->
+  <!--Quem é o Resource Manager-->
   <property>
      <name>yarn.resourcemanager.hostname</name>
      <value>namenode1</value>
+  </property>
+
+  <property>
+    <name>yarn.resourcemanager.scheduler.address</name>
+    <value>namenode1:8030</value>
   </property>
   
   <property>

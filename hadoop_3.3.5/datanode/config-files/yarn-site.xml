@@ -16,19 +16,17 @@
 
 <!-- Site specific YARN configuration properties -->
 
-  <!--Apenas no nó Node Manager-->
+  <!--Aponta onde está no Resource manager-->
   <property>
     <name>yarn.resourcemanager.hostname</name>
     <value>namenode1:8031</value>
   </property>
 
-  <!--Apenas no nó Node Manager-->
   <property>
     <name>yarn.resourcemanager.address</name>
     <value>namenode1:8032</value>
   </property>
 
-  <!--Apenas no nó Node Manager-->
   <property>
     <name>yarn.resourcemanager.resource-tracker.address</name>
     <value>namenode1:8031</value>
