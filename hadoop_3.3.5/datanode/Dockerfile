@@ -43,14 +43,6 @@ RUN usermod -aG hadoop hduser
 # Transforma o usuário criado em um super usuário
 RUN echo "hduser ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-# Adcionando usuários de serviços
-RUN useradd hdfs -g hadoop
-RUN useradd yarn -g hadoop
-RUN useradd jhs -g hadoop
-RUN useradd HTTP -g hadoop
-RUN useradd hive -g hadoop
-RUN useradd mapred -g hadoop
-
 # Copia o arquivo de configuração do ssh
 # StrictHostKeyChecking no = Desabilita pergunta / checagem de confiança de chave
 # UserKnownHostsFile /dev/null = Não salva o nome do host, assim caso mude não corre o risco de fazer a pergunta de checagem
@@ -139,6 +131,7 @@ RUN cd openssl-1.1.1h && ./config && make && make install
 RUN ln -s /usr/local/lib64/libssl.so.1.1 /usr/lib64/libssl.so.1.1
 RUN ln -s /usr/local/lib64/libcrypto.so.1.1 /usr/lib64/libcrypto.so.1.1
 RUN rm -Rf openssl-1.1.1h
+RUN rm -f openssl-1.1.1h.tar.gz
 # Teste openssl 1.1.1 com comando: openssl version
 
 CMD ["/usr/sbin/init"]
