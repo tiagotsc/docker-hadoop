@@ -19,7 +19,7 @@
   <!--Aponta onde está no Resource manager-->
   <property>
     <name>yarn.resourcemanager.hostname</name>
-    <value>namenode1:8031</value>
+    <value>namenode1</value>
   </property>
 
   <property>
