@@ -2,7 +2,7 @@
 # vi: set ft=ruby  :
 
 machines = {
-  "docker-hadoop"   => {"memory" => "6144", "cpu" => "4", "ip" => "200", "image" => "centos/7"}
+  "docker-hadoop"   => {"memory" => "16384", "cpu" => "8", "ip" => "200", "image" => "generic/centos9s"}
 }
 
 Vagrant.configure("2") do |config|
@@ -19,6 +19,7 @@ Vagrant.configure("2") do |config|
   # É previso instalar o plugin no HOST "vagrant plugin install vagrant-vbguest"
   # Se tiver algum problema é possível desistalar no HOST através de "vagrant plugin uninstall vagrant-vbguest"
   # Habilita instalação do vbguest na VM do virtualbox
+  config.vbguest.auto_update = false
   config.vbguest.installer_options = { allow_kernel_upgrade: true }
   # Configura o compartilhamento da pasta raiz do vagrant do HOST com a VM
   config.vm.synced_folder ".", "/home/vagrant/projeto"

@@ -1,23 +1,47 @@
-FROM ubuntu:latest
-ENV container=docker
+FROM centos:7
+ENV container docker
 
-# Updates e instalações
-RUN \
-  apt-get update && apt-get install -y \
-  openssh-server \
-  python3 \
-  rsync \
-  sudo \
-  arp-scan \
-  net-tools \
-  iputils-ping \
-  vim \
-  && apt-get clean
-  
+# Remover alguns arquivos para ativar o systemd
+RUN (cd /lib/systemd/system/sysinit.target.wants/; for i in *; do [ $i == \
+systemd-tmpfiles-setup.service ] || rm -f $i; done); \
+rm -f /lib/systemd/system/multi-user.target.wants/*;\
+rm -f /etc/systemd/system/*.wants/*;\
+rm -f /lib/systemd/system/local-fs.target.wants/*; \
+rm -f /lib/systemd/system/sockets.target.wants/*udev*; \
+rm -f /lib/systemd/system/sockets.target.wants/*initctl*; \
+rm -f /lib/systemd/system/basic.target.wants/*;\
+rm -f /lib/systemd/system/anaconda.target.wants/*;
+VOLUME [ "/sys/fs/cgroup" ]
+
+RUN yum clean all && \
+    yum update -y && yum install -y \
+    python3 \
+    rsync \
+    net-tools \
+    vim \
+    nano \
+    sudo \
+    sshpass \
+    wget \
+    make \
+    yum install -y autoconf automake libtool \
+    yum install -y gcc gcc-c++ cmake \
+    yum install -y zlib-devel \
+    yum install -y openssl-devel \
+    yum install -y snappy snappy-devel \
+    yum install -y bzip2 bzip2-devel \
+    yum -y install openssh-server openssh-clients initscripts
+
 # Cria grupo hadoop
 RUN groupadd hadoop
-# Cria usuário para a instalação do Hadoop
-RUN useradd -m hduser && echo "hduser:hadoop" | chpasswd && adduser hduser sudo && echo "hduser ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && cd /usr/bin/ && sudo ln -s python3 python
+# Cria usuário para a instalação do Hadoop e define a senha
+RUN useradd -m hduser && echo "hduser:hduser" | chpasswd
+# Adiciona o usuário criado ao grupo padrão wheel do super usuário do CentOS
+RUN usermod -aG wheel hduser
+# Adiciona usuário ao grupo hadoop
+RUN usermod -aG hadoop hduser
+# Transforma o usuário criado em um super usuário
+RUN echo "hduser ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 # Adcionando usuários de serviços
 RUN useradd hdfs -g hadoop
@@ -109,4 +133,14 @@ RUN echo '* soft nofile 102400' >> /etc/security/limits.conf
 RUN echo '* hard nofile 409600' >> /etc/security/limits.conf
 RUN echo 'session    required     /lib64/security/pam_limits.so' >> /etc/pam.d/login
 
+# Instalação openssl version 1.1.1 (É utilizado pelo Yarn e MapReduce)
+RUN wget https://www.openssl.org/source/openssl-1.1.1h.tar.gz 
+RUN tar -zxf openssl-1.1.1h.tar.gz
+RUN cd openssl-1.1.1h && ./config && make && make install
+RUN ln -s /usr/local/lib64/libssl.so.1.1 /usr/lib64/libssl.so.1.1
+RUN ln -s /usr/local/lib64/libcrypto.so.1.1 /usr/lib64/libcrypto.so.1.1
+RUN rm -Rf openssl-1.1.1h
+# Teste openssl 1.1.1 com comando: openssl version
 
+# Permite usar systemctl dentro do container
+CMD ["/usr/sbin/init"]
