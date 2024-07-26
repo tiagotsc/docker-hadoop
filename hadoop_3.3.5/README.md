@@ -136,7 +136,7 @@ Esse arquivo conterá todos os recursos e configurações necessárias que nossa
 
 2 - Adicione o seguinte conteúdo no arquivo **Dockerfile** e salve.
 
-https://github.com/tiagotsc/docker-hadoop/blob/ed327be11a4db6f42371255c8cb48646b5002c00/hadoop_3.3.5/namenode/Dockerfile#L1-L112
+https://github.com/tiagotsc/docker-hadoop/blob/main/hadoop_3.3.5/namenode/Dockerfile#L1-L112
 
 3 - Na pasta onde tem o **Dockerfile**, crie o arquivo **script.sh** e adicione o conteúdo:
 
